@@ -26,9 +26,17 @@ echo "$hosts" >> "$output_file"
 echo -e "\nInformações Detalhadas:" >> "$output_file"
 for host in $hosts; do
     mac=$(arp -n $host | awk '{print $3}')
+    
     # Usar o comando curl para consultar o banco de dados OUI da IEEE
-    manufacturer=$(curl -s "https://macvendors.com/query/$mac" | jq -r '.result.company')
-    echo "$host : $mac : $manufacturer" >> "$output_file"
+    manufacturer=$(curl -s "https://macvendors.com/query/$mac")
+    
+    # Verificar se a resposta contém um campo "result" válido
+    if [[ $manufacturer =~ "result" ]]; then
+        company=$(echo "$manufacturer" | jq -r '.result.company')
+        echo "$host : $mac : $company" >> "$output_file"
+    else
+        echo "$host : $mac : Informação do fabricante não disponível" >> "$output_file"
+    fi
 done
 
 echo "Resultados salvos em: $output_file"
