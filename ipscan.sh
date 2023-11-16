@@ -23,8 +23,14 @@ echo "Informações Detalhadas:" > "$output_file"
 for host in $hosts; do
     mac=$(arp -n $host | awk '{print $3}')
     
+    # Adicione esta linha para depuração
+    echo "DEBUG: Consultando fabricante para $mac"
+    
     # Usar o comando curl para consultar o banco de dados OUI da IEEE
     manufacturer_info=$(curl -s "https://macvendors.com/query/$mac")
+    
+    # Adicione esta linha para depuração
+    echo "DEBUG: Resposta do curl para $mac: $manufacturer_info"
     
     # Verificar se a resposta contém um campo "result" válido
     if [[ $manufacturer_info =~ "result" ]]; then
