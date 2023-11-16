@@ -23,19 +23,12 @@ echo "Informações Detalhadas:" > "$output_file"
 for host in $hosts; do
     mac=$(arp -n $host | awk '{print $3}')
     
-    # Adicione esta linha para depuração
-    echo "DEBUG: Consultando fabricante para $mac"
+    # Usar o comando curl para consultar a API em PHP
+    manufacturer_info=$(php -r "\$mac_address = '$mac'; \$url = 'https://api.macvendors.com/' . urlencode(\$mac_address); \$response = file_get_contents(\$url); if(\$response) echo \$response;")
     
-    # Usar o comando curl para consultar o banco de dados OUI da IEEE
-    manufacturer_info=$(curl -s "https://macvendors.com/query/$mac")
-    
-    # Adicione esta linha para depuração
-    echo "DEBUG: Resposta do curl para $mac: $manufacturer_info"
-    
-    # Verificar se a resposta contém um campo "result" válido
-    if [[ $manufacturer_info =~ "result" ]]; then
-        company=$(echo "$manufacturer_info" | jq -r '.result.company')
-        echo "IP: $host | MAC: $mac | Fabricante: $company" >> "$output_file"
+    # Verificar se a resposta é válida
+    if [[ "$manufacturer_info" != "Not Found" ]]; then
+        echo "IP: $host | MAC: $mac | Fabricante: $manufacturer_info" >> "$output_file"
     else
         echo "IP: $host | MAC: $mac | Fabricante: Informação não disponível" >> "$output_file"
     fi
