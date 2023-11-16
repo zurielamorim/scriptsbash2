@@ -21,17 +21,13 @@ hosts=$(fping -a -g $subnet)
 # Salvar a lista de hosts ativos em um arquivo
 echo "Informações Detalhadas:" > "$output_file"
 for host in $hosts; do
-    mac=$(arp -n $host | awk '{print $3}')
-    
-    # Usar o comando curl para consultar a API em PHP
-    manufacturer_info=$(curl -s "https://api.macvendors.com/$mac")
-    
-    # Verificar se a resposta é válida
-    if [[ "$manufacturer_info" != "Not Found" ]]; then
-        echo "IP: $host | MAC: $mac | Fabricante: $manufacturer_info" >> "$output_file"
-    else
-        echo "IP: $host | MAC: $mac | Fabricante: Informação não disponível" >> "$output_file"
-    fi
-done
+    mac=$(arp -n $host | grep ether | awk '{print $3}')
 
-echo "Resultados salvos em: $output_file"
+    formated_mac=$(echo ${mac} | awk -F ':' '{print $1 $2 $3}')
+    
+    manufacturer_info=$(grep -i ${formated_mac} mac_reference.txt | awk '{print $2}')
+    
+    echo "IP: $host | MAC: $mac | Fabricante: $manufacturer_info" >> ${output_file}
+done
+    echo "Resultados salvos em: $output_file"
+    exit
