@@ -26,7 +26,9 @@ echo "$hosts" >> "$output_file"
 echo -e "\nInformações Detalhadas:" >> "$output_file"
 for host in $hosts; do
     mac=$(arp -n $host | awk '{print $3}')
-    echo "$host : $mac" >> "$output_file"
+    # Usar o comando curl para consultar o banco de dados OUI da IEEE
+    manufacturer=$(curl -s "https://macvendors.com/query/$mac" | jq -r '.result.company')
+    echo "$host : $mac : $manufacturer" >> "$output_file"
 done
 
 echo "Resultados salvos em: $output_file"
