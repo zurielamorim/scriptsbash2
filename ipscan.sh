@@ -24,7 +24,7 @@ for host in $hosts; do
     mac=$(arp -n $host | awk '{print $3}')
     
     # Usar o comando curl para consultar a API em PHP
-    manufacturer_info=$(php -r "\$mac_address = '$mac'; \$url = 'https://api.macvendors.com/' . urlencode(\$mac_address); \$response = file_get_contents(\$url); if(\$response) echo \$response;")
+    manufacturer_info=$(curl -s "https://api.macvendors.com/$mac")
     
     # Verificar se a resposta é válida
     if [[ "$manufacturer_info" != "Not Found" ]]; then
