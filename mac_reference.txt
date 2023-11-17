@@ -23044,7 +23044,7 @@ FCF136	Samsung Electronics Co.,Ltd
 FCF152	Sony Corporation
 FCF1CD	OPTEX-FA CO.,LTD.
 FCF528	ZyXEL Communications Corporation
-FCF647	Fiberhome Telecommunication Technologies Co.,LTD
+FCF647	Fiberhome Telecommunication Te74:86:e2chnologies Co.,LTD
 FCF8AE	Intel Corporate
 FCF8B7	TRONTEQ Electronic
 FCFAF7	Shanghai Baud Data Communication Co.,Ltd.
@@ -23054,3 +23054,4 @@ FCFE77	Hitachi Reftechno, Inc.
 FCFEC2	Invensys Controls UK Limited
 FCFFAA	IEEE Registration Authority
 00A859  Fanvil X1
+7486E2  Dell Inc.
