@@ -18,9 +18,17 @@ output_file="$script_dir/resultado_scan.txt"
 # Usar fping para identificar hosts ativos
 hosts=$(fping -a -g $subnet)
 
+subnetFilter=$(echo ${subnet} | cut -c1-$((${#subnet} - 4)))
+myIpAddr=$(ifconfig | grep ${subnetFilter} | awk '{print $2}' | awk -F ':' '{print $2}')
+
 # Salvar a lista de hosts ativos em um arquivo
 echo "Informações Detalhadas:" > "$output_file"
+
 for host in $hosts; do
+    if [ ${host} == ${myIpAddr} ]
+    then
+        continue
+    fi    
     mac=$(arp -n $host | grep ether | awk '{print $3}')
 
     formated_mac=$(echo ${mac} | awk -F ':' '{print $1 $2 $3}')
