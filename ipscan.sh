@@ -16,7 +16,7 @@ script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 output_file="$script_dir/resultado_scan.txt"
 
 # Usar fping para identificar hosts ativos
-hosts=$(fping -a -g $subnet)
+hosts=$(fping -r 0 -t 100 -a -g $subnet)
 
 subnetFilter=$(echo ${subnet} | cut -c1-$((${#subnet} - 4)))
 myIpAddr=$(ifconfig | grep ${subnetFilter} | awk '{print $2}' | awk -F ':' '{print $2}')
