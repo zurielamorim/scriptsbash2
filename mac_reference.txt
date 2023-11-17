@@ -23053,3 +23053,4 @@ FCFC48	Apple, Inc.
 FCFE77	Hitachi Reftechno, Inc.
 FCFEC2	Invensys Controls UK Limited
 FCFFAA	IEEE Registration Authority
+00A859  Fanvil X1
