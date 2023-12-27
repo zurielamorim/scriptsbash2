@@ -44,7 +44,7 @@ for host in $hosts; do
     formated_mac=$(echo -e ${mac} | awk -F ':' '{print $1 $2 $3}')
 
     echo -e "Consultando Vendor ${formated_mac}...\n"
-    manufacturer_info=$(grep -i ${formated_mac} mac_reference.txt | awk '{print $2}')
+    manufacturer_info=$(grep -i ${formated_mac} mac_reference.txt | awk '{print $2, $3, $4}')
 
     echo -e "Imprimindo Vendor no arquivo ${output_file}\n\n"
     echo -e "IP: $host | MAC: $mac | Fabricante: $manufacturer_info" >> ${output_file}
