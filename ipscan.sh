@@ -1,4 +1,11 @@
 #!/bin/bash
+#############################################
+# Name: ipscan.sh
+# Created by: Zuriel
+# Adapted by: Josimar
+#############################################
+
+
 
 # Solicitar ao usuário para inserir manualmente o endereço IP da sub-rede
 read -p "Insira o endereço IP da sub-rede (exemplo: 10.0.0.0/16): " subnet
@@ -24,23 +31,21 @@ myIpAddr=$(ifconfig | grep ${subnetFilter} | awk '{print $2}' | awk -F ':' '{pri
 # Salvar a lista de hosts ativos em um arquivo
 echo -e "Informações Detalhadas:" > "$output_file"
 
-# Contador para o total de hosts
 total_hosts=0
 
 for host in $hosts; do
-    # Ignorar o próprio endereço IP do usuário
-    if [[ ${host} == ${myIpAddr} ]]; then
+
+    if [[ ${host} == ${myIpAddr} ]]
+    then
         continue
     fi
-
-    # Incrementar o contador
-    ((total_hosts++))
 
     echo -e "Obtendo MAC do host ${host}...\n"    
     mac=$(arp -n $host | grep ether | awk '{print $3}')
 
-    if [[ -z ${mac} ]]; then
-        echo -e "Ignorando ${host}, pois retornou um MAC inválido para consulta\n"
+    if [[ -z ${mac} ]]
+    then
+        echo -e "Ignorando ${host}, pois retornou um MAC invalido para consulta\n"
         continue
     fi
 
@@ -50,12 +55,17 @@ for host in $hosts; do
     echo -e "Consultando Vendor ${formated_mac}...\n"
     manufacturer_info=$(grep -i ${formated_mac} mac_reference.txt | awk '{print $2, $3, $4}')
 
-    echo -e "Imprimindo Vendor no arquivo ${output_file}\n"
+    echo -e "Imprimindo Vendor no arquivo ${output_file}\n\n"
     echo -e "IP: $host | MAC: $mac | Fabricante: $manufacturer_info" >> ${output_file}
+
+    total_hosts=$((total_hosts + 1))
 done
 
-# Imprimir a contagem no final do arquivo
-echo -e "\nTotal de hosts ativos na sub-rede: $total_hosts\n" >> "$output_file"
+# Adicionar a mensagem ao final do arquivo
+echo -e "\nTotal de hosts encontrados: $total_hosts" >> ${output_file}
 
-echo -e "Resultados salvos em: $output_file"
+echo -e "\n\nResultados salvos em: $output_file"
+
+echo -e "\n\n##### Para verificar o resultado, basta usar o comando abaixo: #####\n\ncat $output_file e filtrar o IP necessário."
 exit
+
