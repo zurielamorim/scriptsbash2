@@ -24,20 +24,24 @@ myIpAddr=$(ifconfig | grep ${subnetFilter} | awk '{print $2}' | awk -F ':' '{pri
 # Salvar a lista de hosts ativos em um arquivo
 echo -e "Informações Detalhadas:" > "$output_file"
 
-for host in $hosts; do
+# Contador para o total de hosts
+total_hosts=0
 
-    if [[ ${host} == ${myIpAddr} ]]
-    then
+for host in $hosts; do
+    # Ignorar o próprio endereço IP do usuário
+    if [[ ${host} == ${myIpAddr} ]]; then
         continue
     fi
+
+    # Incrementar o contador
+    ((total_hosts++))
 
     echo -e "Obtendo MAC do host ${host}...\n"    
     mac=$(arp -n $host | grep ether | awk '{print $3}')
 
-    if [[ -z ${mac} ]]
-    then
-	echo -e "Ignorando ${host}, pois retornou um MAC invalido para consulta\n"
-	continue
+    if [[ -z ${mac} ]]; then
+        echo -e "Ignorando ${host}, pois retornou um MAC inválido para consulta\n"
+        continue
     fi
 
     echo -e "Formatando MAC do host ${mac}...\n"
@@ -46,8 +50,12 @@ for host in $hosts; do
     echo -e "Consultando Vendor ${formated_mac}...\n"
     manufacturer_info=$(grep -i ${formated_mac} mac_reference.txt | awk '{print $2, $3, $4}')
 
-    echo -e "Imprimindo Vendor no arquivo ${output_file}\n\n"
+    echo -e "Imprimindo Vendor no arquivo ${output_file}\n"
     echo -e "IP: $host | MAC: $mac | Fabricante: $manufacturer_info" >> ${output_file}
 done
-    echo -e "Resultados salvos em: $output_file"
-    exit
+
+# Imprimir a contagem no final do arquivo
+echo -e "\nTotal de hosts ativos na sub-rede: $total_hosts\n" >> "$output_file"
+
+echo -e "Resultados salvos em: $output_file"
+exit
