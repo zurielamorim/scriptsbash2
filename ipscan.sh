@@ -5,6 +5,8 @@
 # Adapted by: Josimar
 #############################################
 
+echo -e "\n#####Para utilizar o script, é necessário ter o fping instalado.#####\n\nCaso não o possua, instale-o antes de executar o script.\n"
+
 # Solicitar ao usuário para inserir manualmente o endereço IP da sub-rede
 read -p "Insira o endereço IP da sub-rede (exemplo: 10.0.0.0/16): " subnet
 
