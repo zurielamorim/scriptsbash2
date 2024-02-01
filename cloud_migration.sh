@@ -39,7 +39,7 @@ if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
 
     # Loop para sincronizar cada diretório
     for dir in "${directories[@]}"; do
-        rsync -avz --exclude 'backup' --exclude 'udev/rules.d/70-persistent-net.rules' --exclude 'network/interfaces' --exclude 'fstab' "$dir"* "$DEST_USER@$DEST_IP":$dir
+        rsync -avz --exclude 'backup' --exclude 'udev/rules.d/70-persistent-net.rules' --exclude 'network/interfaces' --exclude 'fstab' --exclude 'rc.local' "$dir"* "$DEST_USER@$DEST_IP":$dir
     done
 else
     echo "Sincronização cancelada."
