@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Tela de aviso e confirmação
+echo "Antes de iniciar a execução do script, é fundamental garantir que o backup do banco de dados de destino esteja devidamente atualizado."
 echo "Atenção: Este script irá parar os seguintes serviços no servidor de origem:"
 echo "- cron"
 echo "- rudder-agent"
