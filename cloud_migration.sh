@@ -16,7 +16,7 @@ if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
     # Parar serviços no servidor de origem
     /etc/init.d/cron stop
     /etc/init.d/rudder-agent stop
-    /usr/bin/supervisorctl stop
+    /usr/bin/supervisorctl stop all
     /etc/init.d/openvpn stop
     /etc/init.d/mysql stop
     /etc/init.d/apache2 stop
