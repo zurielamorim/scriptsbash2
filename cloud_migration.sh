@@ -28,9 +28,6 @@ if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
      chmod -x /etc/init.d/rudder-agent
      chmod -x /etc/init.d/openvpn     
 
-    # Mover o diretório de backup do MySQL
-    mv /home/futurofone/backup/mysql/ /home/futurofone/mysql.old
-
     # Solicitar informações do usuário
     read -p "Digite o nome de usuário de destino: " DEST_USER
     read -p "Digite o IP do servidor de destino: " DEST_IP
