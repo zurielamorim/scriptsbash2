@@ -23,6 +23,11 @@ if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
     /etc/init.d/apache2 stop
     /etc/init.d/docker stop
 
+    # Retirar permissão dos serviços
+     chmod -x /etc/init.d/cron
+     chmod -x /etc/init.d/rudder-agent
+     chmod -x /etc/init.d/openvpn     
+
     # Mover o diretório de backup do MySQL
     mv /home/futurofone/backup/mysql/ /home/futurofone/mysql.old
 
