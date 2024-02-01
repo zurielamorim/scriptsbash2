@@ -22,6 +22,9 @@ if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
     /etc/init.d/apache2 stop
     /etc/init.d/docker stop
 
+    # Mover o diretório de backup do MySQL
+    mv /home/futurofone/backup/mysql/ /home/futurofone/mysql.old
+
     # Solicitar informações do usuário
     read -p "Digite o nome de usuário de destino: " DEST_USER
     read -p "Digite o IP do servidor de destino: " DEST_IP
