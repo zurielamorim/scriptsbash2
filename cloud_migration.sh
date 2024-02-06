@@ -24,13 +24,13 @@ if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
     /etc/init.d/docker stop
 
     # Retirar permissão dos serviços
-     chmod -x /etc/init.d/cron
-     chmod -x /etc/init.d/rudder-agent
-     chmod -x /etc/init.d/openvpn     
+    chmod -x /etc/init.d/cron
+    chmod -x /etc/init.d/rudder-agent
+    chmod -x /etc/init.d/openvpn     
 
     # Solicitar informações do usuário
-    read -p "Digite o nome de usuário de destino: " DEST_USER
-    read -p "Digite o IP do servidor de destino: " DEST_IP
+    read -p "Digite o nome de usuário de origem: " SRC_USER
+    read -p "Digite o IP do servidor de origem: " SRC_IP
 
     # Array de diretórios a serem sincronizados
     directories=(
@@ -45,7 +45,7 @@ if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
 
     # Loop para sincronizar cada diretório
     for dir in "${directories[@]}"; do
-        rsync -avz --exclude 'udev/rules.d/70-persistent-net.rules' --exclude 'network/interfaces' --exclude 'fstab' --exclude 'rc.local' "$dir"* "$DEST_USER@$DEST_IP":$dir
+        rsync -avz --exclude 'udev/rules.d/70-persistent-net.rules' --exclude 'network/interfaces' --exclude 'fstab' --exclude 'rc.local' "$SRC_USER@$SRC_IP":$dir* "$dir"
     done
 else
     echo "Sincronização cancelada."
