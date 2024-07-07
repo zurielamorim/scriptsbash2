@@ -23043,14 +23043,14 @@ FCEDB9	Arrayent
 FCF136	Samsung Electronics Co.,Ltd
 FCF152	Sony Corporation
 FCF1CD	OPTEX-FA CO.,LTD.
-FCF528	ZyXEL Communications Corporation
+FCF528	ZyXEL Communications CorporationASUSTek COMPUTER
 FCF647	Fiberhome Telecommunication Te74:86:e2chnologies Co.,LTD
 FCF8AE	Intel Corporate
 FCF8B7	TRONTEQ Electronic
 FCFAF7	Shanghai Baud Data Communication Co.,Ltd.
 FCFBFB	Cisco Systems, Inc
-FCFC48	Apple, Inc.
-FCFE77	Hitachi Reftechno, Inc.
+FCFC48	Apple, Inc.ASUSTek COMPUTER
+FCFE77	Hitachi Reftechno, Inc.Hewlett Packard Enterprise
 FCFEC2	Invensys Controls UK Limited
 FCFFAA	IEEE Registration Authority
 00A859  Fanvil X1
@@ -23062,3 +23062,8 @@ C4FC22  YEALINK(XIAMEN) NETWORK TECHNOLOGY CO.,LTD
 C074AD	Grandstream Networks, Inc.
 D8ECE5  Zyxel Communications
 AC15A2  TP-Link Corporation
+3C7C3F  ASUSTek COMPUTER
+FC3497  ASUSTek COMPUTER
+943FC2  Hewlett Packard Enterprise
+CC2DE0  Routerboard
+48A98A  Routerboard
