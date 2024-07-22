@@ -1,23 +1,21 @@
 #!/bin/bash
 
+# Solicitar confirmação do usuário
+read -p "Esse script irá escrever um arquivo de 1 GB. Deseja continuar? 
+
+(Pressione Enter para continuar ou Ctrl+C para cancelar) "
+
 # Teste de escrita
 echo "Iniciando teste de escrita..."
-dd if=/dev/zero of=testfile bs=1M count=1024 conv=fdatasync
+velocidade_escrita=$(dd if=/dev/zero of=testfile bs=1M count=1024 conv=fdatasync 2>&1)
+velocidade_formatada1=$(echo "$velocidade_escrita" | grep -o '[0-9,\.]* [MG]B/s')
+echo "Velocidade de escrita: $velocidade_formatada1"
 
 # Teste de leitura
 echo "Iniciando teste de leitura..."
-dd if=testfile of=/dev/null bs=1M count=1024
+velocidade_leitura=$(dd if=testfile of=/dev/null bs=1M count=1024 2>&1)
+velocidade_formatada2=$(echo "$velocidade_leitura" | grep -o '[0-9,\.]* [MG]B/s')
+echo "Velocidade de leitura: $velocidade_formatada2"
 
-# Removendo o arquivo de teste
-rm testfile
-
-# Extrair os resultados do teste de escrita
-velocidade_escrita=$(dd if=/dev/zero of=testfile bs=1M count=1024 conv=fdatasync 2>&1 | grep -oP '\d+\.\d+ MB/s' | tail -n 1)
-echo "Velocidade de escrita: $velocidade_escrita"
-
-# Extrair os resultados do teste de leitura
-velocidade_leitura=$(dd if=testfile of=/dev/null bs=1M count=1024 2>&1 | grep -oP '\d+\.\d+ MB/s' | tail -n 1)
-echo "Velocidade de leitura: $velocidade_leitura"
-
-# Remover novamente o arquivo de teste
+# Remover o arquivo de teste
 rm testfile
