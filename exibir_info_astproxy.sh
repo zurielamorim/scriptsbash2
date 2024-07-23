@@ -30,16 +30,16 @@ fi
 # Verifica a conectividade com o gateway da operadora
 ping -c 1 $gateway_ip &> /dev/null
 if [ $? -eq 0 ]; then
-    echo "O gateway da operadora está acessível."
+    echo "O gateway $gateway_ip da operadora está acessível."
 else
-    echo "O gateway da operadora está desligado."
+    echo "O gateway $gateway_ip da operadora está desligado."
     exit 1
 fi
 
 # Verifica a conectividade com o SBC da operadora
 ping -c 1 $ip_address &> /dev/null
 if [ $? -eq 0 ]; then
-    echo "Comunicação com o SBC da operadora está ok."
+    echo "Comunicação com o SBC $ip_address da operadora está ok."
 else
     echo "Será necessário entrar em contato com a operadora."
 fi
