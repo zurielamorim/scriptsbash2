@@ -47,6 +47,6 @@ if [ $? -eq 0 ]; then
     echo "Comunicação com o SBC $ip_address da operadora está ok."
     echo -e "\n"
 else
-    echo "Será necessário entrar em contato com a operadora."
+    echo "Será necessário entrar em contato com a operadora, SBC $ip_address não está respondendo."
     echo -e "\n"
 fi
