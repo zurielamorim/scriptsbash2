@@ -1,8 +1,11 @@
 #!/bin/bash
 
+echo -e "\n"
+echo "Favor verificar o recurso digitando | docker ps | antes de executar." 
+echo -e "\n"
 # Solicita o número do tronco ao usuário
 read -p "Digite o número do tronco/recurso: " trunk_number
-
+echo -e "\n"
 # Executa o comando no Docker para mostrar os AORs
 aors_output=$(docker exec -it astproxy-$trunk_number asterisk -rx 'pjsip show aors')
 
@@ -31,8 +34,10 @@ fi
 ping -c 1 $gateway_ip &> /dev/null
 if [ $? -eq 0 ]; then
     echo "O gateway $gateway_ip da operadora está acessível."
+    echo -e "\n"
 else
     echo "O gateway $gateway_ip da operadora está desligado."
+    echo -e "\n"
     exit 1
 fi
 
@@ -40,6 +45,8 @@ fi
 ping -c 1 $ip_address &> /dev/null
 if [ $? -eq 0 ]; then
     echo "Comunicação com o SBC $ip_address da operadora está ok."
+    echo -e "\n"
 else
     echo "Será necessário entrar em contato com a operadora."
+    echo -e "\n"
 fi
