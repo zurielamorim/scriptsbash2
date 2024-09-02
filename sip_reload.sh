@@ -11,7 +11,7 @@ php "${caminho_script2}"
 # Recarrega os módulos IAX2, SIP e DIALPLAN no Asterisk
 asterisk -rx 'iax2 reload'
 asterisk -rx 'sip reload'
-sleep 1
+sleep 2
 asterisk -rx 'reload'
 asterisk -rx 'dialplan reload'
 
