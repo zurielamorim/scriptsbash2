@@ -32,6 +32,7 @@ myIpAddr=$(ifconfig | grep ${subnetFilter} | awk '{print $2}' | awk -F ':' '{pri
 echo -e "Informações Detalhadas:" > "$output_file"
 
 total_hosts=0
+total_no_mac=0
 
 for host in $hosts; do
 
@@ -45,7 +46,9 @@ for host in $hosts; do
 
     if [[ -z ${mac} ]]
     then
-        echo -e "Ignorando ${host}, pois retornou um MAC invalido para consulta\n"
+        echo -e "Nenhum MAC encontrado para ${host}, registrando IP no arquivo.\n"
+        echo -e "IP: $host | MAC: N/A | Fabricante: Não encontrado" >> ${output_file}
+        total_no_mac=$((total_no_mac + 1))
         continue
     fi
 
@@ -62,10 +65,10 @@ for host in $hosts; do
 done
 
 # Adicionar a mensagem ao final do arquivo
-echo -e "\nTotal de hosts encontrados: $total_hosts" >> ${output_file}
+echo -e "\nTotal de hosts com MAC encontrado: $total_hosts" >> ${output_file}
+echo -e "Total de hosts sem MAC: $total_no_mac" >> ${output_file}
 
 echo -e "\n\nResultados salvos em: $output_file"
 
 echo -e "\n\n##### Para verificar o resultado, basta usar o comando abaixo: #####\n\ncat $output_file e filtrar o IP necessário."
 exit
-
