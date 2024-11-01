@@ -1,11 +1,33 @@
 #!/bin/bash
 
 echo -e "\n"
-echo "Favor verificar o recurso digitando | docker ps | antes de executar." 
+echo "Executando o script, por favor, aguarde..."
 echo -e "\n"
 
-# Solicita o número do tronco ao usuário
-read -p "Digite o número do tronco/recurso: " trunk_number
+# Obtem os números dos troncos com base nos containers que seguem o padrão astproxy
+trunks=$(docker ps --format "{{.Names}}" | grep 'astproxy' | awk -F '-' '{print $2}')
+
+# Conta o número de troncos encontrados
+trunk_count=$(echo "$trunks" | wc -l)
+
+# Verifica quantos troncos foram encontrados
+if [ "$trunk_count" -eq 1 ]; then
+    # Se houver apenas um tronco, seleciona automaticamente
+    trunk_number=$trunks
+    echo "Número do tronco encontrado: $trunk_number"
+else
+    # Se houver mais de um tronco, pede para o usuário escolher
+    echo "Foram encontrados múltiplos troncos:"
+    select trunk_number in $trunks; do
+        if [ -n "$trunk_number" ]; then
+            echo "Número do tronco selecionado: $trunk_number"
+            break
+        else
+            echo "Opção inválida. Tente novamente."
+        fi
+    done
+fi
+
 echo -e "\n"
 
 # Executa o comando no Docker para mostrar os AORs
