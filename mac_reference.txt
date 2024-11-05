@@ -23079,3 +23079,4 @@ B8CB29  Dell Inc.
 4851CF  Intelbras
 C836A3  GERTEC BRASIL LTDA
 682719  Microchip Technology Inc
+00155D  Microsoft Corporation
