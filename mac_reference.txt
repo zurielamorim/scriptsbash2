@@ -23071,6 +23071,7 @@ FC3497  ASUSTek COMPUTER
 04D9F5  ASUSTek COMPUTER
 943FC2  Hewlett Packard Enterprise
 F860F0  Hewlett Packard Enterprise
+A40E75  Hewlett Packard Enterprise
 CC2DE0  Routerboard
 48A98A  Routerboard
 E45F01  Raspberry Pi Trading Ltd
@@ -23080,3 +23081,6 @@ B8CB29  Dell Inc.
 C836A3  GERTEC BRASIL LTDA
 682719  Microchip Technology Inc
 00155D  Microsoft Corporation
+DCCD2F  Seiko Epson Corporation
+88C9B3  Shenzhen MMUI Co.
+D8365F  Intelbras
