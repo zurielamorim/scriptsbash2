@@ -4,23 +4,37 @@ echo -e "\n"
 echo "Executando o script, por favor, aguarde..."
 echo -e "\n"
 
-# Obtem os números dos troncos com base nos containers que seguem o padrão astproxy
+# Obtém os números dos troncos com base nos containers que seguem o padrão astproxy
 trunks=$(docker ps --format "{{.Names}}" | grep 'astproxy' | awk -F '-' '{print $2}')
 
 # Conta o número de troncos encontrados
 trunk_count=$(echo "$trunks" | wc -l)
 
-# Verifica quantos troncos foram encontrados
+# Verifica se há apenas um tronco
 if [ "$trunk_count" -eq 1 ]; then
     # Se houver apenas um tronco, seleciona automaticamente
     trunk_number=$trunks
     echo "Número do tronco encontrado: $trunk_number"
+    
+    # Se o único tronco encontrado for 'vvn', executa o comando fs_cli
+    if [ "$trunk_number" == "vvn" ]; then
+        echo "Executando comando fs_cli para o tronco astproxy-vvn..."
+        docker exec -it astproxy-vvn fs_cli -x 'sofia status'
+        exit 0
+    fi
 else
     # Se houver mais de um tronco, pede para o usuário escolher
     echo "Foram encontrados múltiplos troncos:"
     select trunk_number in $trunks; do
         if [ -n "$trunk_number" ]; then
             echo "Número do tronco selecionado: $trunk_number"
+            
+            # Verifica se o tronco selecionado é 'vvn' e executa o comando fs_cli
+            if [ "$trunk_number" == "vvn" ]; then
+                echo "Executando comando fs_cli para o tronco astproxy-vvn..."
+                docker exec -it astproxy-vvn fs_cli -x 'sofia status'
+                exit 0
+            fi
             break
         else
             echo "Opção inválida. Tente novamente."
