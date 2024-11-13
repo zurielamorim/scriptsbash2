@@ -1,19 +1,19 @@
 #!/bin/bash
 
-# Solicitar números de contato ao usuário
-read -p "Digite os números de contato (Ex: 03131086805): " numeros_contato
-
-# Verificar se os números de contato foram fornecidos
-if [ -z "$numeros_contato" ]; then
-    echo "Nenhum número de contato fornecido. Saindo do script."
+# Verificar se o número de contato foi fornecido como argumento
+if [ -z "$1" ]; then
+    echo "Uso: ./finalizar_contato.sh \"numero\""
     exit 1
 fi
 
+# Definir o número de contato a partir do primeiro argumento
+numero_contato=$1
+
 # Executar o loop para finalizar os contatos
-for numero_contato in $numeros_contato; do
-    for i in $(php /home/futurofone/web/core/test/chats/contatos.php | grep "$numero_contato" | cut -d " " -f1); do
-        php /home/futurofone/web/core/cmd/chat/finalizarContato.php $i
-    done
+for i in $(php /home/futurofone/web/core/test/chats/contatos.php | grep "$numero_contato" | cut -d " " -f1); do
+    # Exibir o número antes de finalizar o contato
+    echo "Número encontrado: $i"
+    php /home/futurofone/web/core/cmd/chat/finalizarContato.php $i
 done
 
 # Mensagem de conclusão
