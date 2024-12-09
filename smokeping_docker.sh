@@ -7,10 +7,9 @@ CONTAINER_NAME="smokeping"
 DATA_DIR="/opt/smokeping/data"
 CONFIG_DIR="/opt/smokeping/config"
 
-
 IMAGE="linuxserver/smokeping"
 
-# Verifica se a rede existe
+# Validar se a rede existe
 if ! docker network ls | grep -q "$NETWORK_NAME"; then
     echo "Criando a rede Docker '$NETWORK_NAME'..."
     docker network create "$NETWORK_NAME"
@@ -18,7 +17,7 @@ else
     echo "A rede '$NETWORK_NAME' já existe."
 fi
 
-# Verifica se o contêiner já está rodando
+# Validar contêiner
 if docker ps -a | grep -q "$CONTAINER_NAME"; then
     echo "O contêiner '$CONTAINER_NAME' já existe. Removendo-o..."
     docker stop "$CONTAINER_NAME" >/dev/null 2>&1
@@ -41,16 +40,17 @@ fi
 
 echo "O contêiner '$CONTAINER_NAME' foi criado com sucesso!"
 
-# Pergunta o IP WAN ao usuário
-read -p "Digite o IP de WAN do cliente que deseja monitorar: " WAN_IP
+read -p "Digite o IP de WAN do cliente que deseja monitorar (ou pressione Enter para não alterar nada): " WAN_IP
 
-# Caminho do arquivo Targets
 TARGETS_FILE="$CONFIG_DIR/Targets"
 
-# Substitui o conteúdo do arquivo Targets
-echo "Atualizando o arquivo de configuração: $TARGETS_FILE..."
+if [ -z "$WAN_IP" ]; then
+    echo "Nenhum IP fornecido. O arquivo de configuração não será alterado."
+else
+    # Substituir Targets
+    echo "Atualizando o arquivo de configuração: $TARGETS_FILE..."
 
-cat <<EOF > "$TARGETS_FILE"
+    cat <<EOF > "$TARGETS_FILE"
 *** Targets ***
 
 probe = FPing
@@ -70,20 +70,21 @@ title = Voip-$WAN_IP
 host = $WAN_IP
 EOF
 
-if [ $? -eq 0 ]; then
-    echo "Arquivo de configuração atualizado com sucesso!"
-else
-    echo "Erro ao atualizar o arquivo de configuração."
-    exit 1
-fi
+    if [ $? -eq 0 ]; then
+        echo "Arquivo de configuração atualizado com sucesso!"
+    else
+        echo "Erro ao atualizar o arquivo de configuração."
+        exit 1
+    fi
 
-# Reinicia o contêiner para aplicar as mudanças
-echo "Reiniciando o contêiner '$CONTAINER_NAME'..."
-docker restart "$CONTAINER_NAME"
+    # Reinicia o contêiner para aplicar as mudanças
+    echo "Reiniciando o contêiner '$CONTAINER_NAME'..."
+    docker restart "$CONTAINER_NAME"
 
-if [ $? -eq 0 ]; then
-    echo "O contêiner '$CONTAINER_NAME' foi reiniciado com sucesso!"
-else
-    echo "Erro ao reiniciar o contêiner."
-    exit 1
+    if [ $? -eq 0 ]; then
+        echo "O contêiner '$CONTAINER_NAME' foi reiniciado com sucesso!"
+    else
+        echo "Erro ao reiniciar o contêiner."
+        exit 1
+    fi
 fi
