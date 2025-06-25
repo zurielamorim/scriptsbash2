@@ -23,18 +23,22 @@ if (!is_numeric($codigoAgente)) {
     die();
 }
 
-$contFinalizados=0;
+$contFinalizados = 0;
 try {
     foreach (ChatAtendimentoCacheService::getChatAtendimentos() as $chatAtendimentoDTO) {
 
         if ($chatAtendimentoDTO["agente"]["codigo"] == $codigoAgente) {
-            if($contFinalizados == 0){
-                echo "\nIniciando processo de finalização dos chats do agente ".$chatAtendimentoDTO['agente']['nome'];
+            if ($contFinalizados == 0) {
+                echo "\nIniciando processo de finalização dos chats do agente " . $chatAtendimentoDTO['agente']['nome'];
                 echo "\n ID  |  Contato";
             }
-            ChatEventoPublish::finalizarContatoInatividade($chatAtendimentoDTO["chatContato"]["id"]);
-            echo "\n".$chatAtendimentoDTO['chatContato']['id'].' | '.$chatAtendimentoDTO['chatContato']['hash'].' ==> Finalizado!';
+            ChatEventoPublish::finalizarContatoInatividade(
+                $chatAtendimentoDTO["chatContato"]["queueNameMidiaSocial"],
+                $chatAtendimentoDTO["chatContato"]["id"]
+            );
+            echo "\n" . $chatAtendimentoDTO['chatContato']['id'] . ' | ' . $chatAtendimentoDTO['chatContato']['hash'] . ' ==> Finalizado!';
             $contFinalizados++;
+            usleep(500000); // Pausa de 0,5 segundo entre cada finalização
         }
     }
 } catch (SistemaException $ex) {
@@ -50,8 +54,6 @@ if ($contFinalizados == 0) {
 
 echo "\n";
 
-EOF
-)
 
 # Criação do primeiro arquivo PHP
 echo "$conteudo1" > "$arquivo1"
